@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import hn.unah.lenguajes.reposicion.models.Equipos;
 import hn.unah.lenguajes.reposicion.models.Posiciones;
 import hn.unah.lenguajes.reposicion.service.EquipoServicio;
+import hn.unah.lenguajes.reposicion.service.PosicionesServicio;
 import jakarta.persistence.Id;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,6 +28,9 @@ public class EquipoController {
     @Autowired
     private EquipoServicio equipoServicio;
 
+    @Autowired 
+    private PosicionesServicio posicionesServicio;
+
     @GetMapping("/todos")
     public List<Equipos> obtenerTodos() {
         return this.equipoServicio.obtenerTodos();
@@ -40,14 +44,16 @@ public class EquipoController {
     @PostMapping("/crear")
     public Equipos crearEquipo(@RequestBody Equipos equipo) {
         Posiciones posiciones = new Posiciones();
+        Equipos equipoCreado = this.equipoServicio.crearEquipo(equipo);
         posiciones.setEmpates(0);
         posiciones.setGanados(0);
         posiciones.setPerdidos(0);
         posiciones.setGolesFavor(0);
         posiciones.setGolesContra(0);
         posiciones.setPuntos(0);
-        posiciones.setCodigoEquipo(equipo.getCodigoEquipo());
-        return this.equipoServicio.crearEquipo(equipo);
+        posiciones.setCodigoEquipo(equipoCreado.getCodigoEquipo());
+        this.posicionesServicio.crearPosicion(posiciones);
+        return equipoCreado;
     }
 
     @DeleteMapping("/eliminar")

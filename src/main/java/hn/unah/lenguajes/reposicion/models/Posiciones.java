@@ -4,8 +4,10 @@ package hn.unah.lenguajes.reposicion.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
@@ -40,7 +42,7 @@ public class Posiciones {
     @Column(name = "puntos")
     private int puntos;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "codigoequipo", referencedColumnName = "codigoequipo")
     private Equipos equipo;
 

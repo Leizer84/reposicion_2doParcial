@@ -1,5 +1,6 @@
 package hn.unah.lenguajes.reposicion.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
@@ -31,6 +32,7 @@ public class Equipos {
     @Column(name = "defensa")
     private Double defensa;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "equipo", cascade = CascadeType.ALL)
     private Posiciones posiciones;
 
